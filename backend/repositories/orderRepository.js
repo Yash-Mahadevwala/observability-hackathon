@@ -22,3 +22,13 @@ exports.getOrders = async () => {
   const result = await db.query("SELECT * FROM orders");
   return result.rows;
 };
+
+exports.deleteById = async (id) => {
+  // Delete child items first to respect FK constraint
+  await db.query("DELETE FROM order_items WHERE order_id = $1", [id]);
+  const result = await db.query(
+    "DELETE FROM orders WHERE id = $1 RETURNING *",
+    [id]
+  );
+  return result.rows[0];
+};

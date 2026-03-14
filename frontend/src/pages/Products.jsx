@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import api from "../api/api"
 
 export default function Products() {
-
   const [products, setProducts] = useState([])
   const [name, setName] = useState("")
   const [price, setPrice] = useState("")
@@ -32,12 +31,22 @@ export default function Products() {
 
       loadProducts()
     } catch (error) {
-      const errData = error.response?.data;
+      const errData = error.response?.data
       if (errData?.errors) {
-        alert("Errors:\n" + errData.errors.map(e => `- ${e.field}: ${e.message}`).join("\n"));
+        alert("Errors:\n" + errData.errors.map(e => `- ${e.field}: ${e.message}`).join("\n"))
       } else {
-        alert("Error creating product: " + (errData?.message || error.message));
+        alert("Error creating product: " + (errData?.message || error.message))
       }
+    }
+  }
+
+  const deleteProduct = async (id) => {
+    if (!confirm("Delete this product?")) return
+    try {
+      await api.delete(`/products/${id}`)
+      loadProducts()
+    } catch (error) {
+      alert("Error deleting product: " + (error.response?.data?.message || error.message))
     }
   }
 
@@ -48,9 +57,7 @@ export default function Products() {
   return (
     <div className="bg-white p-5 rounded-lg shadow">
 
-      <h2 className="text-lg font-semibold mb-4">
-        Products
-      </h2>
+      <h2 className="text-lg font-semibold mb-4">Products</h2>
 
       <form className="flex gap-2 mb-4" onSubmit={createProduct}>
 
@@ -87,10 +94,18 @@ export default function Products() {
         {products.map((p) => (
           <div
             key={p.id}
-            className="border p-2 rounded flex justify-between"
+            className="border p-2 rounded flex justify-between items-center"
           >
             <span>{p.name}</span>
-            <span>${p.price}</span>
+            <div className="flex items-center gap-4">
+              <span className="text-gray-600">${p.price}</span>
+              <button
+                onClick={() => deleteProduct(p.id)}
+                className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         ))}
 

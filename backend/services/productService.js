@@ -7,3 +7,7 @@ exports.createProduct = async (data) => {
 exports.getProducts = async () => {
   return await productRepo.findAll();
 };
+
+exports.deleteProduct = async (id) => {
+  return await productRepo.deleteById(id);
+};

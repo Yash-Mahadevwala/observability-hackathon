@@ -6,5 +6,6 @@ const { createUserSchema } = require("../validations/userValidation");
 
 router.post("/", validate(createUserSchema), userController.createUser);
 router.get("/", userController.getUsers);
+router.delete("/:id", userController.deleteUser);
 
 module.exports = router;

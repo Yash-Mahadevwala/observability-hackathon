@@ -63,11 +63,9 @@ export default function Orders() {
         items: formattedItems
       })
 
-      // Reset form on success
       setSelectedUser("")
       setItems([{ product_id: "", quantity: 1 }])
 
-      // Reload orders
       const res = await api.get("/orders")
       setOrders(res.data || [])
 
@@ -78,6 +76,17 @@ export default function Orders() {
       } else {
         alert("Error creating order: " + (errData?.message || error.message))
       }
+    }
+  }
+
+  const deleteOrder = async (id) => {
+    if (!confirm("Delete this order?")) return
+    try {
+      await api.delete(`/orders/${id}`)
+      const res = await api.get("/orders")
+      setOrders(res.data || [])
+    } catch (error) {
+      alert("Error deleting order: " + (error.response?.data?.message || error.message))
     }
   }
 
@@ -164,11 +173,17 @@ export default function Orders() {
         <h3 className="font-semibold text-gray-700">Order History</h3>
         {orders.length === 0 && <p className="text-gray-500 text-sm">No orders found.</p>}
         {orders.map((o) => (
-          <div key={o.id} className="border p-3 rounded">
-            <strong>Order #{o.id}</strong>
-            <p className="text-sm text-gray-600 mt-1">
-              User ID: {o.user_id}
-            </p>
+          <div key={o.id} className="border p-3 rounded flex justify-between items-center">
+            <div>
+              <strong>Order #{o.id}</strong>
+              <p className="text-sm text-gray-600 mt-1">User ID: {o.user_id}</p>
+            </div>
+            <button
+              onClick={() => deleteOrder(o.id)}
+              className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
+            >
+              Delete
+            </button>
           </div>
         ))}
       </div>

@@ -12,3 +12,11 @@ exports.findAll = async () => {
   const result = await db.query("SELECT * FROM users");
   return result.rows;
 };
+
+exports.deleteById = async (id) => {
+  const result = await db.query(
+    "DELETE FROM users WHERE id = $1 RETURNING *",
+    [id]
+  );
+  return result.rows[0];
+};

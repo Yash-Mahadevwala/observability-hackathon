@@ -13,3 +13,7 @@ exports.createOrder = async (data) => {
 exports.getOrders = async () => {
   return await orderRepo.getOrders();
 };
+
+exports.deleteOrder = async (id) => {
+  return await orderRepo.deleteById(id);
+};

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import api from "../api/api"
 
 export default function Users() {
-
   const [users, setUsers] = useState([])
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -14,7 +13,7 @@ export default function Users() {
 
   const createUser = async (e) => {
     e.preventDefault()
-    
+
     if (!name.trim() || !email.trim()) {
       alert("Name and email are required.")
       return
@@ -32,12 +31,22 @@ export default function Users() {
 
       loadUsers()
     } catch (error) {
-      const errData = error.response?.data;
+      const errData = error.response?.data
       if (errData?.errors) {
-        alert("Errors:\n" + errData.errors.map(e => `- ${e.field}: ${e.message}`).join("\n"));
+        alert("Errors:\n" + errData.errors.map(e => `- ${e.field}: ${e.message}`).join("\n"))
       } else {
-        alert("Error creating user: " + (errData?.message || error.message));
+        alert("Error creating user: " + (errData?.message || error.message))
       }
+    }
+  }
+
+  const deleteUser = async (id) => {
+    if (!confirm("Delete this user?")) return
+    try {
+      await api.delete(`/users/${id}`)
+      loadUsers()
+    } catch (error) {
+      alert("Error deleting user: " + (error.response?.data?.message || error.message))
     }
   }
 
@@ -48,9 +57,7 @@ export default function Users() {
   return (
     <div className="bg-white p-5 rounded-lg shadow">
 
-      <h2 className="text-lg font-semibold mb-4">
-        Users
-      </h2>
+      <h2 className="text-lg font-semibold mb-4">Users</h2>
 
       <form className="flex gap-2 mb-4" onSubmit={createUser}>
 
@@ -85,9 +92,15 @@ export default function Users() {
         {users.map((u) => (
           <div
             key={u.id}
-            className="border p-2 rounded"
+            className="border p-2 rounded flex justify-between items-center"
           >
-            {u.name} — {u.email}
+            <span>{u.name} — {u.email}</span>
+            <button
+              onClick={() => deleteUser(u.id)}
+              className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
+            >
+              Delete
+            </button>
           </div>
         ))}
 

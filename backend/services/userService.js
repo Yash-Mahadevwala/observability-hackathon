@@ -7,3 +7,7 @@ exports.createUser = async (data) => {
 exports.getUsers = async () => {
   return await userRepo.findAll();
 };
+
+exports.deleteUser = async (id) => {
+  return await userRepo.deleteById(id);
+};

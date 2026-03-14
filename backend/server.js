@@ -5,6 +5,7 @@ require("./config/otel");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 const errorHandler = require("./middleware/errorHandler");
 const { register } = require("./metrics/metrics")
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use("/users", userRoutes);
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
+app.use("/admin", adminRoutes);
 
 app.get("/metrics", async (req, res) => {
   res.set("Content-Type", register.contentType)
