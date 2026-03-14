@@ -30,9 +30,14 @@ CREATE TABLE order_items (
 
 INSERT INTO users (name,email,password) VALUES
 ('Alice','alice@test.com','123456'),
-('Bob','bob@test.com','123456');
+('Bob','bob@test.com','123456'),
+('Charlie','charlie@test.com','123456'),
+('David','david@test.com','123456'),
+('Eve','eve@test.com','123456');
 
 INSERT INTO products (name,price,stock) VALUES
 ('Laptop',1000,10),
 ('Keyboard',100,50),
-('Mouse',50,100);
+('Mouse',50,100),
+('Monitor',300,20),
+('Desk',500,10);
