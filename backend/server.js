@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-require("./config/otel")
+require("./config/otel");
 
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");

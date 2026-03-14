@@ -11,9 +11,13 @@ exporters:
     endpoint: tempo:4317
     tls:
       insecure: true
+  
+processors:
+  batch:
 
 service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [logging, otlp/tempo]
+      processors: [batch]
+      exporters: [otlp/tempo]
