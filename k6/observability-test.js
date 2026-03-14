@@ -13,7 +13,7 @@ export const options = {
 
     thresholds: {
         http_req_duration: ["p(95)<800"],
-        http_req_failed: ["rate<0.2"]
+        http_req_failed: ["rate<0.3"] // Adjusted to 0.3 to allow for intentional 20% failures (400/404 tests)
     }
 };
 

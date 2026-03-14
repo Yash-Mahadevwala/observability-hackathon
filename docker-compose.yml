@@ -76,6 +76,11 @@ services:
     volumes:
       - ./docker/otel-collector-config.yaml:/etc/otel-collector-config.yaml
 
+  node-exporter:
+    image: prom/node-exporter
+    ports:
+      - "9100:9100"
+
 volumes:
   postgres-data:
   prometheus-data:
